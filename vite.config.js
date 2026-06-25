@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/PEDOMAN-LPPD-KAB-KOTA-2025/',
   plugins: [
     tailwindcss(),
     VitePWA({
