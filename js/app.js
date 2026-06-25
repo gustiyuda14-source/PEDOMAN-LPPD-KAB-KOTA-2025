@@ -16,6 +16,7 @@ document.addEventListener('alpine:init', () => {
         searchQuery: '',
         activeCategory: 'all',
         expandedCards: {},
+        expandedMacroCards: {},
         isDarkMode: false,
 
         tabs: [
@@ -86,38 +87,7 @@ document.addEventListener('alpine:init', () => {
             },
         ],
 
-        macroIndicators: [
-            {
-                name: 'Indeks Pembangunan Manusia (IPM)',
-                desc: 'Mengukur kualitas hidup masyarakat dari aspek pendapatan, kesehatan, dan pendidikan.',
-                icon: 'trending-up',
-            },
-            {
-                name: 'Persentase Penduduk Miskin',
-                desc: 'Persentase penduduk yang memiliki pengeluaran per kapita di bawah garis kemiskinan.',
-                icon: 'users',
-            },
-            {
-                name: 'Tingkat Pengangguran Terbuka',
-                desc: 'Persentase jumlah pengangguran terbuka terhadap jumlah angkatan kerja.',
-                icon: 'briefcase',
-            },
-            {
-                name: 'Pertumbuhan Ekonomi (PDRB)',
-                desc: 'Tingkat pertumbuhan ekonomi daerah diukur menggunakan Produk Domestik Regional Bruto.',
-                icon: 'bar-chart-2',
-            },
-            {
-                name: 'PDRB Per Kapita ADHB',
-                desc: 'Pendapatan per kapita atas dasar harga berlaku untuk mengukur tingkat kemakmuran.',
-                icon: 'dollar-sign',
-            },
-            {
-                name: 'Ketimpangan Pendapatan (Gini Ratio)',
-                desc: 'Mengukur ketimpangan distribusi pendapatan, berkisar antara 0 (merata) hingga 1 (timpang).',
-                icon: 'activity',
-            },
-        ],
+        macroIndicators: [],
 
         get filteredIKK() {
             let data = this.ikkData;
@@ -142,14 +112,16 @@ document.addEventListener('alpine:init', () => {
 
         toggleCard(id) {
             this.expandedCards[id] = !this.expandedCards[id];
-            this.$nextTick(() => lucide.createIcons());
+        },
+        
+        toggleMacroCard(id) {
+            this.expandedMacroCards[id] = !this.expandedMacroCards[id];
         },
 
         setAllCards(state) {
             const updates = {};
             this.filteredIKK.forEach(item => { updates[item.id] = state; });
             this.expandedCards = { ...this.expandedCards, ...updates };
-            this.$nextTick(() => lucide.createIcons());
         },
 
         toggleTheme() {
@@ -221,12 +193,14 @@ document.addEventListener('alpine:init', () => {
             });
 
             try {
-                const [ikkRes, introRes] = await Promise.all([
+                const [ikkRes, introRes, macroRes] = await Promise.all([
                     fetch('./data/ikk_details.json'),
                     fetch('./data/intro_chapters.json'),
+                    fetch('./data/macro_indicators.json'),
                 ]);
                 this.ikkData = await ikkRes.json();
                 this.introData = await introRes.json();
+                this.macroIndicators = await macroRes.json();
             } catch (err) {
                 console.error('Gagal memuat data:', err);
             } finally {

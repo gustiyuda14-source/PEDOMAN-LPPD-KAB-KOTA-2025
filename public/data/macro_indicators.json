@@ -1,0 +1,50 @@
+[
+    {
+        "id": "A",
+        "name": "Indeks Pembangunan Manusia (IPM)",
+        "icon": "trending-up",
+        "konsep": "Indeks Pembangunan Manusia (IPM) adalah nilai indeks pembangunan manusia pada daerah yang bersangkutan. IPM menjelaskan bagaimana penduduk dapat mengakses hasil pembangunan dalam memperoleh pendapatan, kesehatan, pendidikan dan sebagainya.",
+        "data_pendukung": "Nilai Indeks Pembangunan Manusia pada tahun N dan tahun N-1",
+        "sumber_data": "Badan Pusat Statistik (BPS)"
+    },
+    {
+        "id": "B",
+        "name": "Persentase Penduduk Miskin",
+        "icon": "users",
+        "konsep": "Kemiskinan dipandang sebagai ketidakmampuan dari sisi ekonomi untuk memenuhi kebutuhan dasar makanan dan bukan makanan yang diukur dari sisi pengeluaran sehingga penduduk miskin adalah penduduk yang memiliki rata-rata pengeluaran per kapita per bulan di bawah garis kemiskinan. Angka kemiskinan adalah persentase penduduk miskin pada daerah yang bersangkutan.",
+        "data_pendukung": "Persentase Penduduk Miskin pada tahun N dan tahun N-1",
+        "sumber_data": "Badan Pusat Statistik (BPS)"
+    },
+    {
+        "id": "C",
+        "name": "Tingkat Pengangguran Terbuka",
+        "icon": "briefcase",
+        "konsep": "Indikator ini digunakan untuk melihat tingkat pengangguran pada daerah yang bersangkutan, khususnya tingkat pengangguran terbuka yang dilihat dari persentase jumlah pengangguran terhadap jumlah angkatan kerja.\n\nPenganggur terbuka terdiri dari mereka yang tak punya pekerjaan dan mencari pekerjaan, mereka yang tak punya pekerjaan dan mempersiapkan usaha, mereka yang tak punya pekerjaan dan tidak mencari pekerjaan karena mereka tidak mungkin mendapatkan pekerjaan dan mereka yang sudah punya pekerjaan tapi belum mulai bekerja.",
+        "data_pendukung": "Tingkat Pengangguran Terbuka pada tahun N dan tahun N-1",
+        "sumber_data": "Badan Pusat Statistik (BPS)"
+    },
+    {
+        "id": "D",
+        "name": "Pertumbuhan Ekonomi",
+        "icon": "bar-chart-2",
+        "konsep": "Indikator ini digunakan untuk melihat tingkat pertumbuhan ekonomi daerah yang bersangkutan, khususnya dengan menggunakan PDB/PDRB. Terdapat 2 (dua) jenis PDB/PDRB:\na. Atas dasar harga berlaku\nMenggambarkan nilai tambah barang dan jasa yang dihitung menggunakan harga yang berlaku setiap tahun. PDRB atas harga berlaku dapat digunakan untuk melihat pergeseran dan struktur ekonomi.\nb. Atas dasar harga konstan\nAtas dasar harga konstan menunjukkan nilai tambah barang dan jasa yang dihitung menggunakan harga yang berlaku pada satu tahun sebagai dasar. PDRB atas harga konstan dapat digunakan untuk mengetahui pertumbuhan ekonomi dari tahun-tahun.",
+        "data_pendukung": "Presentase pertumbuhan ekonomi pada tahun N dan tahun N-1",
+        "sumber_data": "Badan Pusat Statistik (BPS)"
+    },
+    {
+        "id": "E",
+        "name": "PDRB Per Kapita Atas Dasar Harga Berlaku (ADHB)",
+        "icon": "dollar-sign",
+        "konsep": "Indikator ini digunakan untuk melihat tingkat kenaikan pendapatan per kapita daerah yang bersangkutan. Terdapat 2 (dua) metode penghitungan:\na. PDRB Per Kapita Nominal (berdasarkan harga berlaku) yang tidak mempertimbangkan tingkat inflasi atau kenaikan harga;\nb. PDRB Per Kapita Riil (berdasarkan angka konstan) yang dihitung berdasarkan harga tetap sebagai acuan.",
+        "data_pendukung": "PDRB Per Kapita Atas Dasar Harga Berlaku pada tahun N dan tahun N-1 dalam satuan rupiah utuh",
+        "sumber_data": "Badan Pusat Statistik (BPS)"
+    },
+    {
+        "id": "F",
+        "name": "Ketimpangan Pendapatan (Gini Ratio)",
+        "icon": "activity",
+        "konsep": "Indikator ini digunakan untuk melihat ketimpangan pendapatan pada daerah bersangkutan dengan menggunakan gini ratio. Gini ratio adalah ukuran ketidakmerataan atau ketimpangan agregat (secara keseluruhan) yang angkanya berkisar antara nol (pemerataan sempurna) hingga satu (ketimpangan sempurna).",
+        "data_pendukung": "Gini Ratio pada tahun N dan tahun N-1",
+        "sumber_data": "Badan Pusat Statistik (BPS)"
+    }
+]

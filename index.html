@@ -475,18 +475,70 @@
                 </div>
 
                 <!-- Macro grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <div class="flex flex-col gap-3 mb-6">
                     <template x-for="(macro, idx) in macroIndicators" :key="idx">
-                        <div class="relative bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-apip-200 dark:hover:border-apip-900 transition-all card-red">
-                            <div class="pl-3">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <div class="bg-apip-50 dark:bg-apip-950/40 text-apip-600 dark:text-apip-400 p-2 rounded-lg">
-                                        <i :data-lucide="macro.icon" class="w-4 h-4"></i>
+                        <div class="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-apip-200 dark:hover:border-apip-900/80 transition-all duration-200 card-red">
+                            
+                            <!-- Card Header — clickable -->
+                            <div @click="toggleMacroCard(macro.id)"
+                                 class="pl-5 pr-4 py-4 flex items-start gap-3 cursor-pointer hover:bg-slate-50/70 dark:hover:bg-white/[.02] transition-colors group">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                                        <div class="bg-apip-50 dark:bg-apip-950/40 text-apip-600 dark:text-apip-400 p-1.5 rounded-lg flex-shrink-0">
+                                            <i :data-lucide="macro.icon" class="w-3.5 h-3.5"></i>
+                                        </div>
+                                        <span class="inline-flex items-center font-mono font-bold text-[11px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                                            <span x-text="'Indikator ' + macro.id"></span>
+                                        </span>
                                     </div>
-                                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 rounded text-[10px] font-bold text-slate-500 uppercase tracking-wider">BPS</span>
+                                    <h4 class="text-sm sm:text-[15px] font-semibold font-outfit text-slate-900 dark:text-white leading-snug group-hover:text-apip-700 dark:group-hover:text-apip-400 transition-colors"
+                                        x-text="macro.name"></h4>
                                 </div>
-                                <h3 class="text-[15px] font-bold font-outfit text-slate-900 dark:text-white mb-1.5" x-text="macro.name"></h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed" x-text="macro.desc"></p>
+                                <div class="flex-shrink-0 p-1.5 rounded-lg text-slate-400 group-hover:bg-apip-50 group-hover:text-apip-600 dark:group-hover:bg-apip-950/30 dark:group-hover:text-apip-400 transition-colors mt-0.5">
+                                    <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-300"
+                                       :class="expandedMacroCards[macro.id] ? 'rotate-180 text-apip-600 dark:text-apip-400' : ''"></i>
+                                </div>
+                            </div>
+
+                            <!-- Card Body — expanded -->
+                            <div x-show="expandedMacroCards[macro.id]" x-collapse>
+                                <div class="border-t border-apip-100 dark:border-slate-800/80">
+                                    <div class="pl-5 pr-4 pt-5 pb-4 grid grid-cols-1 gap-5">
+                                        
+                                        <!-- Konsep -->
+                                        <div>
+                                            <h5 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5 font-outfit flex items-center gap-1.5">
+                                                <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-gold-500"></i> Konsep / Definisi
+                                            </h5>
+                                            <div class="text-sm leading-relaxed text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/40 p-3.5 rounded-xl border border-slate-100 dark:border-slate-800"
+                                                 x-text="macro.konsep || '-'"></div>
+                                        </div>
+
+                                        <!-- Data Pendukung -->
+                                        <div>
+                                            <h5 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5 font-outfit flex items-center gap-1.5">
+                                                <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-apip-500"></i> Data / Informasi yang Digunakan
+                                            </h5>
+                                            <div class="text-sm leading-relaxed whitespace-pre-wrap text-slate-700 dark:text-slate-300 pl-3 border-l-2 border-apip-400 dark:border-apip-700"
+                                                 x-text="macro.data_pendukung || '-'"></div>
+                                        </div>
+
+                                        <!-- Sumber Data -->
+                                        <div>
+                                            <div class="flex items-start gap-3 bg-slate-50 dark:bg-slate-800/40 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                                                <div class="bg-apip-600 text-white p-2 rounded-lg shadow-sm flex-shrink-0">
+                                                    <i data-lucide="database" class="w-3.5 h-3.5"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <h6 class="text-[9px] font-black text-apip-600 dark:text-apip-400 uppercase tracking-widest mb-1 font-outfit">Sumber Data Utama</h6>
+                                                    <p class="text-sm font-medium text-slate-800 dark:text-slate-200 leading-snug whitespace-pre-wrap"
+                                                       x-text="macro.sumber_data || '-'"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </template>
