@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-apip-50: #fff1f2;
+  --color-apip-100: #ffe4e6;
+  --color-apip-200: #fecdd3;
+  --color-apip-300: #fda4af;
+  --color-apip-400: #fb7185;
+  --color-apip-500: #f43f5e;
+  --color-apip-600: #e11d48;
+  --color-apip-700: #be123c;
+  --color-apip-800: #9f1239;
+  --color-apip-900: #881337;
+  --color-apip-950: #4c0519;
+
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+  --color-gold-600: #d97706;
+}
+
+body { font-family: 'Inter', sans-serif; }
+.font-outfit { font-family: 'Outfit', sans-serif; }
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(203,213,225,1); border-radius: 10px; }
+.dark ::-webkit-scrollbar-thumb { background: rgba(71,85,105,1); }
+::-webkit-scrollbar-thumb:hover { background: #e11d48; }
+
+[x-cloak] { display: none !important; }
+
+/* Diagonal fire-line pattern */
+.fire-pattern {
+    background-image: repeating-linear-gradient(
+        -52deg,
+        transparent,
+        transparent 14px,
+        rgba(255,255,255,0.035) 14px,
+        rgba(255,255,255,0.035) 28px
+    );
+}
+
+/* Animated horizontal fire line */
+.fire-line-glow {
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(251,113,133,.5) 20%,
+        rgba(225,29,72,.95) 50%,
+        rgba(251,113,133,.5) 80%,
+        transparent 100%
+    );
+    animation: glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse {
+    0%, 100% { opacity: .55; transform: scaleX(.96); }
+    50%       { opacity: 1;   transform: scaleX(1); }
+}
+
+/* Red left-border accent on cards */
+.card-red::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #e11d48 0%, #9f1239 100%);
+    border-radius: 3px 0 0 3px;
+}
+
+/* Hero stat ring */
+.stat-ring {
+    background: conic-gradient(#e11d48 0%, transparent 70%);
+    border-radius: 50%;
+}

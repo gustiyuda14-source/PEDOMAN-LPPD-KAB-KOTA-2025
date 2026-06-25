@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedoman LPPD Kab/Kota 2025 — Inspektorat Sulawesi Tenggara</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="module" src="./js/app.js"></script>
+</head>
+<body x-data="lppdApp()" class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200 transition-colors duration-200 antialiased overflow-x-hidden">
+
+    <!-- ── LOADING SCREEN ── -->
+    <div x-show="isLoading" class="fixed inset-0 z-50 bg-white dark:bg-slate-950 flex flex-col items-center justify-center gap-4">
+        <div class="relative w-14 h-14">
+            <div class="absolute inset-0 rounded-full border-4 border-apip-100 dark:border-apip-900/30"></div>
+            <div class="absolute inset-0 rounded-full border-4 border-t-apip-600 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+        </div>
+        <div class="text-center">
+            <p class="font-outfit font-bold text-slate-800 dark:text-slate-200 text-base">Memuat Pedoman LPPD 2025…</p>
+            <p class="text-xs text-apip-500 font-semibold mt-0.5 uppercase tracking-widest">Inspektorat Provinsi Sulawesi Tenggara</p>
+        </div>
+    </div>
+
+    <div class="min-h-screen flex flex-col" x-cloak>
+
+        <!-- ══════════════════════════════════════
+             HERO BANNER — Institutional Identity
+             ══════════════════════════════════════ -->
+        <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-apip-900 to-apip-950 dark:from-black dark:via-apip-950 dark:to-slate-950">
+
+            <!-- Fire pattern overlay -->
+            <div class="absolute inset-0 fire-pattern"></div>
+
+            <!-- Ambient glows -->
+            <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-apip-700/20 blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-apip-800/20 blur-3xl pointer-events-none"></div>
+
+            <!-- Top thin red line -->
+            <div class="absolute top-0 left-0 right-0 h-px bg-apip-700/60"></div>
+
+            <div class="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-12">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+
+                    <!-- Shield emblem -->
+                    <div class="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-2xl flex items-center justify-center shadow-2xl">
+                        <i data-lucide="shield-check" class="w-10 h-10 sm:w-12 sm:h-12 text-apip-300"></i>
+                    </div>
+
+                    <!-- Text block -->
+                    <div class="flex-1 text-center sm:text-left">
+
+                        <!-- Eyebrow badge -->
+                        <div class="inline-flex items-center gap-2 mb-3">
+                            <div class="h-px w-6 bg-apip-400"></div>
+                            <span class="text-apip-400 text-[10px] font-bold uppercase tracking-[0.22em]">Aparat Pengawasan Intern Pemerintah</span>
+                            <div class="h-px w-6 bg-apip-400"></div>
+                        </div>
+
+                        <!-- Main Headline -->
+                        <h1 class="font-outfit font-black text-white text-2xl sm:text-3xl lg:text-4xl xl:text-5xl leading-tight tracking-tight mb-1.5">
+                            PEDOMAN TIM LPPD KAB/KOTA
+                        </h1>
+
+                        <!-- Institution Name — bold red line -->
+                        <div class="flex items-center gap-3 mb-4 justify-center sm:justify-start">
+                            <div class="h-0.5 w-5 bg-apip-500 flex-shrink-0"></div>
+                            <p class="font-outfit font-bold text-apip-300 text-base sm:text-lg tracking-wide">
+                                INSPEKTORAT PROVINSI SULAWESI TENGGARA
+                            </p>
+                        </div>
+
+                        <!-- Badges row -->
+                        <div class="flex flex-wrap gap-2.5 justify-center sm:justify-start">
+                            <span class="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-white/90 text-xs px-3 py-1.5 rounded-full font-medium">
+                                <i data-lucide="file-text" class="w-3.5 h-3.5 text-apip-300"></i>
+                                Kepmendagri No. 100.2.1.7-109 / 2026
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-white/90 text-xs px-3 py-1.5 rounded-full font-medium">
+                                <i data-lucide="layers" class="w-3.5 h-3.5 text-apip-300"></i>
+                                <span x-text="ikkData.length + ' Indikator IKK'">— Indikator</span>
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-white/90 text-xs px-3 py-1.5 rounded-full font-medium">
+                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-apip-300"></i>
+                                LPPD Tahun 2025
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Right stat card (desktop only) -->
+                    <div class="hidden xl:flex flex-col gap-3 flex-shrink-0">
+                        <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-6 py-5 text-right min-w-[140px]">
+                            <p class="text-apip-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Urusan</p>
+                            <p class="font-outfit font-black text-white text-4xl leading-none">34</p>
+                            <p class="text-apip-300 text-xs mt-1">Urusan & Penunjang</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-6 py-4 text-right">
+                            <p class="text-apip-400 text-[10px] font-bold uppercase tracking-widest mb-1">Tahun Pelaporan</p>
+                            <p class="font-outfit font-black text-white text-3xl leading-none">2025</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Bottom fire accent lines (multi-layer) -->
+            <div class="absolute bottom-0 left-0 right-0 flex flex-col">
+                <div class="h-px fire-line-glow"></div>
+                <div class="h-1 flex">
+                    <div class="flex-1 bg-apip-900"></div>
+                    <div class="w-48 bg-apip-700"></div>
+                    <div class="w-24 bg-apip-600"></div>
+                    <div class="w-12 bg-apip-500"></div>
+                    <div class="w-6  bg-apip-400"></div>
+                    <div class="flex-1 bg-apip-900"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             STICKY HEADER — Navigation Bar
+             ══════════════════════════════════ -->
+        <header class="sticky top-0 z-40 bg-white/96 dark:bg-slate-900/96 backdrop-blur-md border-b-2 border-apip-600 shadow-sm">
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-13 flex items-center justify-between gap-4" style="height:52px">
+
+                <!-- Logo -->
+                <div class="flex items-center gap-2.5 flex-shrink-0">
+                    <div class="bg-gradient-to-br from-apip-500 to-apip-700 p-1.5 rounded-lg shadow text-white">
+                        <i data-lucide="book-marked" class="w-4 h-4"></i>
+                    </div>
+                    <div class="hidden sm:block leading-none">
+                        <span class="text-sm font-bold font-outfit text-slate-900 dark:text-white block">LPPD 2025</span>
+                        <span class="text-[9px] text-apip-600 dark:text-apip-400 font-extrabold uppercase tracking-wider">Inspektorat Sultra</span>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation -->
+                <nav class="hidden md:flex items-center h-full">
+                    <template x-for="tab in tabs" :key="tab.id">
+                        <button @click="activeMenu = tab.id"
+                                :class="activeMenu === tab.id
+                                    ? 'text-apip-700 dark:text-apip-400 font-semibold border-b-2 border-apip-600 dark:border-apip-500'
+                                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border-b-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600'"
+                                class="h-full px-5 text-sm transition-all duration-150 whitespace-nowrap -mb-0.5 flex items-center gap-2">
+                            <span x-text="tab.label"></span>
+                        </button>
+                    </template>
+                </nav>
+
+                <!-- Right Controls -->
+                <div class="flex items-center gap-2">
+                    <div class="relative" x-show="activeMenu === 'dashboard'" x-transition.opacity>
+                        <input type="text" x-model="searchQuery" placeholder="Cari ID, nama indikator…"
+                               class="w-40 sm:w-56 pl-8 pr-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-apip-500 focus:border-apip-500 dark:focus:ring-apip-600 transition-all placeholder:text-slate-400">
+                        <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2"></i>
+                    </div>
+                    <button @click="toggleTheme()"
+                            class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-apip-500">
+                        <i data-lucide="sun"  x-show="isDarkMode"  class="w-4 h-4 text-gold-500"></i>
+                        <i data-lucide="moon" x-show="!isDarkMode" class="w-4 h-4 text-slate-500"></i>
+                    </button>
+                    <button @click="exportToPDF()" title="Ekspor Daftar IKK ke PDF"
+                            class="p-1.5 rounded-lg bg-apip-50 hover:bg-apip-100 dark:bg-apip-950/30 dark:hover:bg-apip-900/40 text-apip-600 dark:text-apip-400 transition-colors focus:outline-none focus:ring-2 focus:ring-apip-500">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Tab Bar -->
+            <div class="md:hidden flex overflow-x-auto border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 scrollbar-hide">
+                <template x-for="tab in tabs" :key="tab.id">
+                    <button @click="activeMenu = tab.id"
+                            :class="activeMenu === tab.id
+                                ? 'border-apip-600 text-apip-700 dark:text-apip-400 font-bold'
+                                : 'border-transparent text-slate-500 dark:text-slate-400'"
+                            class="flex-shrink-0 px-4 py-2.5 text-xs border-b-2 whitespace-nowrap transition-colors">
+                        <span x-text="tab.label"></span>
+                    </button>
+                </template>
+            </div>
+        </header>
+
+        <!-- ════════════════════════════
+             MAIN CONTENT
+             ════════════════════════════ -->
+        <main class="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+            <!-- ── TAB: DASHBOARD IKK ── -->
+            <div x-show="activeMenu === 'dashboard'" x-transition.opacity.duration.250ms
+                 class="flex flex-col lg:flex-row gap-5 w-full">
+
+                <!-- ── Sidebar ── -->
+                <aside class="w-full lg:w-60 xl:w-64 flex-shrink-0">
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden sticky top-16">
+
+                        <!-- Sidebar header -->
+                        <div class="flex items-center gap-2.5 px-4 py-3 border-b-2 border-apip-600 bg-gradient-to-r from-apip-50 to-white dark:from-apip-950/40 dark:to-slate-900">
+                            <div class="w-1 h-4 rounded-full bg-apip-600 flex-shrink-0"></div>
+                            <h2 class="text-[11px] font-black uppercase tracking-wider text-apip-800 dark:text-apip-300 font-outfit">Filter Urusan</h2>
+                        </div>
+
+                        <div class="p-2 overflow-y-auto max-h-[calc(100vh-190px)] space-y-0.5">
+                            <!-- All -->
+                            <button @click="activeCategory = 'all'"
+                                    :class="activeCategory === 'all'
+                                        ? 'bg-apip-50 text-apip-700 dark:bg-apip-950/40 dark:text-apip-300 font-semibold border-l-2 border-apip-600'
+                                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 border-l-2 border-transparent'"
+                                    class="w-full flex items-center justify-between px-3 py-2 rounded-r-lg text-sm transition-all text-left">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="layout-grid" class="w-3.5 h-3.5 flex-shrink-0"></i>
+                                    <span>Semua Indikator</span>
+                                </div>
+                                <span class="bg-apip-100 dark:bg-apip-900/50 text-apip-700 dark:text-apip-300 px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="ikkData.length"></span>
+                            </button>
+
+                            <!-- Accordion categories -->
+                            <template x-for="(cat, idx) in menuCategories" :key="idx">
+                                <div class="pt-1">
+                                    <button @click="cat.expanded = !cat.expanded"
+                                            class="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-black text-slate-700 dark:text-slate-300 uppercase tracking-wide rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                        <span class="truncate pr-2" x-text="cat.name"></span>
+                                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-apip-500 dark:text-apip-600 flex-shrink-0 transition-transform duration-200" :class="cat.expanded ? 'rotate-180' : ''"></i>
+                                    </button>
+
+                                    <div x-show="cat.expanded" x-transition x-collapse class="space-y-0.5 pl-1">
+                                        <template x-for="urusan in cat.urusans" :key="urusan">
+                                            <button @click="activeCategory = urusan"
+                                                    x-show="getUrusanCount(urusan) > 0"
+                                                    :class="activeCategory === urusan
+                                                        ? 'bg-apip-50 text-apip-700 border-l-2 border-apip-600 dark:bg-apip-950/40 dark:text-apip-300 dark:border-apip-500 font-semibold'
+                                                        : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 border-l-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600'"
+                                                    class="w-full flex items-center justify-between px-3 py-1.5 rounded-r-lg text-xs transition-all text-left">
+                                                <span class="truncate pr-2" x-text="urusan.replace('Urusan ','').replace('Fungsi Penunjang Urusan Pemerintahan Bidang ','')"></span>
+                                                <span class="flex-shrink-0 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-[10px] font-medium" x-text="getUrusanCount(urusan)"></span>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- ── IKK Main Panel ── -->
+                <section class="flex-1 flex flex-col gap-4 min-w-0">
+
+                    <!-- Toolbar -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-900 px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1 h-10 rounded-full bg-gradient-to-b from-apip-500 to-apip-800 flex-shrink-0"></div>
+                            <div>
+                                <h2 class="text-base font-bold font-outfit text-slate-900 dark:text-white leading-tight" x-text="activeCategory === 'all' ? 'Semua Urusan' : activeCategory.replace('Urusan ','').replace('Fungsi Penunjang Urusan Pemerintahan Bidang ','Penunjang — ')"></h2>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                    Menampilkan
+                                    <span class="font-bold text-apip-600 dark:text-apip-400 mx-0.5" x-text="filteredIKK.length"></span>
+                                    dari <span x-text="ikkData.length" class="font-semibold"></span> indikator
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <button @click="setAllCards(true)"
+                                    class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-apip-50 hover:text-apip-700 hover:border-apip-200 dark:hover:bg-apip-950/30 dark:hover:text-apip-400 text-slate-600 dark:text-slate-400 text-xs font-semibold rounded-xl transition-all border border-transparent">
+                                <i data-lucide="maximize-2" class="w-3 h-3"></i> Expand All
+                            </button>
+                            <button @click="setAllCards(false)"
+                                    class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 text-xs font-semibold rounded-xl transition-colors border border-transparent">
+                                <i data-lucide="minimize-2" class="w-3 h-3"></i> Collapse
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div x-show="filteredIKK.length === 0"
+                         class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-14 text-center shadow-sm">
+                        <div class="bg-apip-50 dark:bg-apip-950/30 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-apip-200 dark:border-apip-900">
+                            <i data-lucide="search-x" class="w-8 h-8 text-apip-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-outfit text-slate-800 dark:text-slate-200 mb-1">Data Tidak Ditemukan</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Gunakan kata kunci lain atau pilih urusan yang berbeda.</p>
+                    </div>
+
+                    <!-- IKK Cards -->
+                    <div class="flex flex-col gap-3">
+                        <template x-for="item in filteredIKK" :key="item.id">
+                            <div class="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-apip-200 dark:hover:border-apip-900/80 transition-all duration-200 card-red">
+
+                                <!-- Card Header — clickable -->
+                                <div @click="toggleCard(item.id)"
+                                     class="pl-5 pr-4 py-4 flex items-start gap-3 cursor-pointer hover:bg-slate-50/70 dark:hover:bg-white/[.02] transition-colors group">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                                            <span class="inline-flex items-center font-mono font-bold text-[11px] px-2 py-0.5 rounded-md bg-apip-50 text-apip-700 dark:bg-apip-950/60 dark:text-apip-300 border border-apip-200 dark:border-apip-800">
+                                                <span x-text="item.id"></span>
+                                            </span>
+                                            <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 truncate"
+                                                  x-text="item.urusan.replace('Urusan ','').replace('Fungsi Penunjang Urusan Pemerintahan Bidang ','')"></span>
+                                        </div>
+                                        <h4 class="text-sm sm:text-[15px] font-semibold font-outfit text-slate-900 dark:text-white leading-snug group-hover:text-apip-700 dark:group-hover:text-apip-400 transition-colors"
+                                            x-text="item.name"></h4>
+                                    </div>
+                                    <div class="flex-shrink-0 p-1.5 rounded-lg text-slate-400 group-hover:bg-apip-50 group-hover:text-apip-600 dark:group-hover:bg-apip-950/30 dark:group-hover:text-apip-400 transition-colors mt-0.5">
+                                        <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-300"
+                                           :class="expandedCards[item.id] ? 'rotate-180 text-apip-600 dark:text-apip-400' : ''"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Card Body — expanded -->
+                                <div x-show="expandedCards[item.id]" x-collapse>
+                                    <div class="border-t border-apip-100 dark:border-slate-800/80">
+                                        <div class="pl-5 pr-4 pt-5 pb-4 grid grid-cols-1 xl:grid-cols-2 gap-5">
+
+                                            <!-- Col 1 -->
+                                            <div class="space-y-4">
+
+                                                <!-- Formula block -->
+                                                <div class="relative bg-slate-900 dark:bg-black rounded-xl overflow-hidden border border-slate-700 dark:border-slate-800">
+                                                    <!-- top-right satuan badge -->
+                                                    <div class="absolute top-0 right-0 bg-apip-600 text-white text-[9px] font-black px-2.5 py-1 rounded-bl-xl uppercase tracking-widest"
+                                                         x-text="item.satuan || '%'"></div>
+                                                    <!-- left red line -->
+                                                    <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-apip-600"></div>
+
+                                                    <div class="pl-4 pr-4 pt-4 pb-3">
+                                                        <h5 class="text-[10px] font-black uppercase tracking-wider text-apip-400 mb-2 font-outfit flex items-center gap-1.5">
+                                                            <i data-lucide="calculator" class="w-3.5 h-3.5"></i> Rumus Perhitungan
+                                                        </h5>
+                                                        <div class="font-mono text-xs whitespace-pre-wrap leading-relaxed py-3 px-3 bg-black/50 rounded-lg border border-slate-800 text-emerald-400"
+                                                             x-text="item.rumus || 'N/A'"></div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Konsep -->
+                                                <div>
+                                                    <h5 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5 font-outfit flex items-center gap-1.5">
+                                                        <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-gold-500"></i> Konsep / Definisi
+                                                    </h5>
+                                                    <div class="text-sm leading-relaxed text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/40 p-3.5 rounded-xl border border-slate-100 dark:border-slate-800"
+                                                         x-text="item.konsep || '-'"></div>
+                                                </div>
+
+                                                <!-- Dasar Hukum -->
+                                                <div>
+                                                    <h5 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5 font-outfit flex items-center gap-1.5">
+                                                        <i data-lucide="scale" class="w-3.5 h-3.5 text-slate-400"></i> Dasar Hukum
+                                                    </h5>
+                                                    <div class="text-xs leading-relaxed whitespace-pre-wrap pl-3 border-l-2 border-apip-400 dark:border-apip-700 text-slate-600 dark:text-slate-400"
+                                                         x-text="item.dasar_hukum || '-'"></div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Col 2 -->
+                                            <div class="space-y-4">
+
+                                                <!-- Definisi Operasional -->
+                                                <div class="relative bg-white dark:bg-slate-800/40 border border-apip-100 dark:border-slate-700 rounded-xl overflow-hidden p-4">
+                                                    <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-apip-500 to-apip-800"></div>
+                                                    <h5 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2 font-outfit flex items-center gap-1.5 pl-1">
+                                                        <i data-lucide="layers" class="w-3.5 h-3.5 text-apip-500"></i> Definisi Operasional
+                                                    </h5>
+                                                    <div class="text-sm leading-relaxed whitespace-pre-wrap text-slate-700 dark:text-slate-300"
+                                                         x-text="item.definisi_operasional || '-'"></div>
+                                                </div>
+
+                                                <!-- Data Pendukung -->
+                                                <div>
+                                                    <h5 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5 font-outfit flex items-center gap-1.5">
+                                                        <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-gold-600"></i> Data Pendukung
+                                                    </h5>
+                                                    <div class="text-sm leading-relaxed whitespace-pre-wrap text-slate-600 dark:text-slate-300 bg-amber-50 dark:bg-amber-950/20 p-3.5 rounded-xl border border-amber-100 dark:border-amber-900/30"
+                                                         x-text="item.data_pendukung || '-'"></div>
+                                                </div>
+
+                                                <!-- Sumber Data -->
+                                                <div class="flex items-start gap-3 bg-apip-50 dark:bg-apip-950/20 p-3.5 rounded-xl border border-apip-100 dark:border-apip-900/30">
+                                                    <div class="bg-apip-600 text-white p-2 rounded-lg shadow-sm flex-shrink-0">
+                                                        <i data-lucide="database" class="w-3.5 h-3.5"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <h6 class="text-[9px] font-black text-apip-600 dark:text-apip-400 uppercase tracking-widest mb-1 font-outfit">Sumber Data Utama</h6>
+                                                        <p class="text-sm font-medium text-apip-900 dark:text-apip-200 leading-snug whitespace-pre-wrap"
+                                                           x-text="item.sumber_data || '-'"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card Footer -->
+                                        <div class="bg-slate-50/80 dark:bg-slate-900/60 px-5 py-2.5 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                                            <div class="text-[11px] text-slate-400 font-mono flex items-center gap-1.5">
+                                                <i data-lucide="book-open" class="w-3 h-3"></i>
+                                                Hal. <span class="font-bold text-slate-600 dark:text-slate-300 ml-0.5" x-text="`${item.page_start}–${item.page_end}`"></span>
+                                            </div>
+                                            <button @click.stop="copyToClipboard(item)"
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-apip-50 hover:text-apip-700 hover:border-apip-300 dark:hover:bg-apip-950/30 dark:hover:text-apip-400 dark:hover:border-apip-800 transition-all shadow-sm">
+                                                <i data-lucide="copy" class="w-3 h-3"></i>
+                                                Salin Info
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ── TAB: PENGANTAR (BAB I & II) ── -->
+            <div x-show="activeMenu === 'bab1-2'" x-transition.opacity
+                 class="flex flex-col lg:flex-row gap-8 w-full max-w-5xl mx-auto">
+
+                <!-- Side nav -->
+                <div class="lg:w-52 flex-shrink-0">
+                    <div class="sticky top-16 space-y-2">
+                        <div class="flex items-center gap-2 mb-3 px-1">
+                            <div class="w-1 h-4 rounded-full bg-apip-600"></div>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 font-outfit">Navigasi</span>
+                        </div>
+                        <a href="#bab1" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-apip-400 hover:text-apip-700 dark:hover:text-apip-400 transition-all shadow-sm">
+                            <div class="w-2 h-2 rounded-full bg-apip-500 flex-shrink-0"></div>
+                            Bab I — Pendahuluan
+                        </a>
+                        <a href="#bab2" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-apip-400 hover:text-apip-700 dark:hover:text-apip-400 transition-all shadow-sm">
+                            <div class="w-2 h-2 rounded-full bg-apip-500 flex-shrink-0"></div>
+                            Bab II — Sistematika
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="flex-1 space-y-8">
+                    <div id="bab1" class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        <div class="flex items-center gap-3 px-7 py-4 border-b-2 border-apip-600 bg-gradient-to-r from-apip-50 to-white dark:from-apip-950/40 dark:to-slate-900">
+                            <div class="bg-apip-600 text-white p-2 rounded-lg shadow-sm">
+                                <i data-lucide="book-open" class="w-4 h-4"></i>
+                            </div>
+                            <h2 class="text-base font-bold font-outfit text-apip-800 dark:text-apip-300">BAB I — Pendahuluan</h2>
+                        </div>
+                        <div class="p-7 whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-300" x-text="introData.bab1"></div>
+                    </div>
+
+                    <div id="bab2" class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        <div class="flex items-center gap-3 px-7 py-4 border-b-2 border-apip-600 bg-gradient-to-r from-apip-50 to-white dark:from-apip-950/40 dark:to-slate-900">
+                            <div class="bg-apip-600 text-white p-2 rounded-lg shadow-sm">
+                                <i data-lucide="list" class="w-4 h-4"></i>
+                            </div>
+                            <h2 class="text-base font-bold font-outfit text-apip-800 dark:text-apip-300">BAB II — Sistematika</h2>
+                        </div>
+                        <div class="p-7 whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-300" x-text="introData.bab2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── TAB: MAKRO (BAB III) ── -->
+            <div x-show="activeMenu === 'bab3-macro'" x-transition.opacity class="w-full max-w-5xl mx-auto">
+
+                <!-- Section hero -->
+                <div class="relative rounded-2xl overflow-hidden mb-6 bg-gradient-to-r from-apip-900 via-apip-800 to-red-900 text-white p-7 shadow-lg">
+                    <div class="absolute inset-0 fire-pattern"></div>
+                    <div class="absolute bottom-0 left-0 right-0 h-px fire-line-glow"></div>
+                    <div class="relative flex items-center gap-4">
+                        <div class="bg-white/15 border border-white/20 p-3 rounded-xl flex-shrink-0">
+                            <i data-lucide="bar-chart-3" class="w-7 h-7"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-bold font-outfit mb-0.5">BAB III — Indikator Kinerja Makro</h2>
+                            <p class="text-apip-200 text-sm">Diukur dari data BPS • Mencerminkan keberhasilan penyelenggaraan pemerintahan daerah secara umum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Macro grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <template x-for="(macro, idx) in macroIndicators" :key="idx">
+                        <div class="relative bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-apip-200 dark:hover:border-apip-900 transition-all card-red">
+                            <div class="pl-3">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="bg-apip-50 dark:bg-apip-950/40 text-apip-600 dark:text-apip-400 p-2 rounded-lg">
+                                        <i :data-lucide="macro.icon" class="w-4 h-4"></i>
+                                    </div>
+                                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 rounded text-[10px] font-bold text-slate-500 uppercase tracking-wider">BPS</span>
+                                </div>
+                                <h3 class="text-[15px] font-bold font-outfit text-slate-900 dark:text-white mb-1.5" x-text="macro.name"></h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed" x-text="macro.desc"></p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Bab3 text -->
+                <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                    <div class="flex items-center gap-3 px-7 py-4 border-b-2 border-apip-600 bg-gradient-to-r from-apip-50 to-white dark:from-apip-950/40 dark:to-slate-900">
+                        <div class="bg-apip-600 text-white p-1.5 rounded-lg">
+                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                        </div>
+                        <h4 class="text-base font-bold font-outfit text-apip-800 dark:text-apip-300">Keterangan Resmi Bab III</h4>
+                    </div>
+                    <div class="p-7 whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-300" x-text="introData.bab3"></div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ═══════════════════════
+             FOOTER
+             ═══════════════════════ -->
+        <footer class="relative bg-slate-900 dark:bg-black text-white mt-10 overflow-hidden">
+            <!-- Top multi-color line (fire symbol) -->
+            <div class="h-1 flex">
+                <div class="flex-1 bg-apip-950"></div>
+                <div class="w-40 bg-apip-800"></div>
+                <div class="w-24 bg-apip-700"></div>
+                <div class="w-16 bg-apip-600"></div>
+                <div class="w-8  bg-apip-500"></div>
+                <div class="w-4  bg-apip-400"></div>
+                <div class="flex-1 bg-apip-950"></div>
+            </div>
+
+            <!-- Fire pattern overlay -->
+            <div class="absolute inset-0 fire-pattern opacity-40 pointer-events-none"></div>
+
+            <div class="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+
+                    <!-- Branding block -->
+                    <div class="text-center md:text-left max-w-sm">
+                        <div class="flex items-center gap-3 mb-3 justify-center md:justify-start">
+                            <div class="bg-apip-700 p-2 rounded-xl">
+                                <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-outfit font-black text-white text-sm leading-tight">PEDOMAN TIM LPPD KAB/KOTA</p>
+                                <p class="text-apip-400 text-[11px] font-semibold">INSPEKTORAT PROVINSI SULAWESI TENGGARA</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-xs leading-relaxed">
+                            Pedoman Penyusunan LPPD Kabupaten/Kota Tahun 2025 berdasarkan Kepmendagri No. 100.2.1.7-109 Tahun 2026.
+                            Dirancang khusus untuk Tim APIP Inspektorat.
+                        </p>
+                    </div>
+
+                    <!-- Divider (vertical, desktop) -->
+                    <div class="hidden md:block w-px self-stretch bg-slate-800 mx-4"></div>
+
+                    <!-- Right meta block -->
+                    <div class="text-center md:text-right">
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-end mb-4">
+                            <span class="bg-slate-800 border border-slate-700 text-slate-300 text-xs px-3 py-1 rounded-full">APIP</span>
+                            <span class="bg-apip-900/60 border border-apip-800 text-apip-300 text-xs px-3 py-1 rounded-full">Sulawesi Tenggara</span>
+                            <span class="bg-slate-800 border border-slate-700 text-slate-300 text-xs px-3 py-1 rounded-full">IKK 2025</span>
+                            <span class="bg-slate-800 border border-slate-700 text-slate-300 text-xs px-3 py-1 rounded-full">Kepmendagri 2026</span>
+                        </div>
+                        <p class="text-slate-500 text-xs">© 2025 Inspektorat Provinsi Sulawesi Tenggara</p>
+                        <p class="text-slate-600 text-[11px] mt-0.5">Dirancang untuk Tim Reviewer LPPD Kab/Kota</p>
+                    </div>
+                </div>
+
+                <!-- Bottom divider with red accent dots -->
+                <div class="mt-8 pt-6 border-t border-slate-800 flex items-center justify-center gap-1.5">
+                    <div class="h-px flex-1 bg-slate-800"></div>
+                    <div class="w-6 h-px bg-apip-700"></div>
+                    <div class="w-2 h-2 rounded-full bg-apip-600"></div>
+                    <div class="w-6 h-px bg-apip-700"></div>
+                    <div class="h-px flex-1 bg-slate-800"></div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Back to Top Button -->
+    <button @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+            x-data="{ show: false }"
+            @scroll.window="show = window.pageYOffset > 300"
+            x-show="show"
+            x-transition
+            class="fixed bottom-6 right-6 p-3 bg-apip-600 hover:bg-apip-700 text-white rounded-full shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-apip-500 z-50">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+</body>
+</html>
