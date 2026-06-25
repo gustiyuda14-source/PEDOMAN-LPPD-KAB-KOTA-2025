@@ -8,7 +8,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['data/ikk_details.json', 'data/intro_chapters.json'],
+      includeAssets: ['data/ikk_details.json', 'data/intro_chapters.json', 'assets/logo-sultra.png'],
       manifest: {
         name: 'LPPD 2025 Sultra',
         short_name: 'LPPD Sultra',
