@@ -195,30 +195,38 @@ document.addEventListener('alpine:init', () => {
                 if (response.ok) {
                     const html = await response.text();
                     this.formatExists = true;
-                    // Memasukkan HTML ke dalam iframe
                     this.$nextTick(() => {
                         const iframe = document.getElementById('format-iframe');
                         if (iframe) {
-                            iframe.style.height = '10px';
+                            iframe.style.height = '500px';
 
-                            iframe.onload = () => {
-                                const body = iframe.contentWindow.document.body;
-                                const setHeight = () => {
-                                    iframe.style.height = (body.scrollHeight + 50) + 'px';
-                                };
-                                setHeight();
-                                // Tailwind CDN injects styles async after load — watch until layout settles
-                                const RO = iframe.contentWindow.ResizeObserver;
-                                if (RO) {
-                                    const observer = new RO(setHeight);
-                                    observer.observe(body);
-                                    setTimeout(() => observer.disconnect(), 2000);
+                            // Listen for height reports from inside the iframe
+                            if (this._iframeHeightHandler) {
+                                window.removeEventListener('message', this._iframeHeightHandler);
+                            }
+                            this._iframeHeightHandler = (e) => {
+                                if (e.data && e.data.type === 'lppd-iframe-height') {
+                                    iframe.style.height = (e.data.height + 50) + 'px';
                                 }
                             };
+                            window.addEventListener('message', this._iframeHeightHandler);
 
+                            // Inject height-reporter script that runs after Tailwind CDN settles
+                            const heightReporter = `<script>
+(function(){
+  function report(){
+    window.parent.postMessage({type:'lppd-iframe-height',height:document.body.scrollHeight},'*');
+  }
+  window.addEventListener('load',function(){
+    report();
+    [100,300,600,1000,1500,2500].forEach(function(ms){setTimeout(report,ms);});
+  });
+})();
+<\/script>`;
+                            const modifiedHtml = html.replace('</body>', heightReporter + '</body>');
                             const doc = iframe.contentWindow.document;
                             doc.open();
-                            doc.write(html);
+                            doc.write(modifiedHtml);
                             doc.close();
                         }
                     });
@@ -235,16 +243,22 @@ document.addEventListener('alpine:init', () => {
 
         closeFormatModal() {
             this.showFormatModal = false;
-            document.body.style.overflow = ''; // Mengembalikan scroll
-            
+            document.body.style.overflow = '';
+
+            if (this._iframeHeightHandler) {
+                window.removeEventListener('message', this._iframeHeightHandler);
+                this._iframeHeightHandler = null;
+            }
+
             setTimeout(() => {
                 const iframe = document.getElementById('format-iframe');
                 if (iframe) {
+                    iframe.style.height = '500px';
                     iframe.contentWindow.document.open();
                     iframe.contentWindow.document.write('');
                     iframe.contentWindow.document.close();
                 }
-            }, 300); // Bersihkan setelah animasi tutup selesai
+            }, 300);
         },
 
         downloadFormatPDF() {
