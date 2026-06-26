@@ -203,7 +203,17 @@ document.addEventListener('alpine:init', () => {
 
                             iframe.onload = () => {
                                 const body = iframe.contentWindow.document.body;
-                                iframe.style.height = (body.scrollHeight + 50) + 'px';
+                                const setHeight = () => {
+                                    iframe.style.height = (body.scrollHeight + 50) + 'px';
+                                };
+                                setHeight();
+                                // Tailwind CDN injects styles async after load — watch until layout settles
+                                const RO = iframe.contentWindow.ResizeObserver;
+                                if (RO) {
+                                    const observer = new RO(setHeight);
+                                    observer.observe(body);
+                                    setTimeout(() => observer.disconnect(), 2000);
+                                }
                             };
 
                             const doc = iframe.contentWindow.document;
