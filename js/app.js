@@ -18,6 +18,10 @@ document.addEventListener('alpine:init', () => {
         expandedCards: {},
         expandedMacroCards: {},
         isDarkMode: false,
+        showFormatModal: false,
+        isFormatLoading: false,
+        formatExists: false,
+        currentFormatItem: null,
 
         tabs: [
             { id: 'dashboard', label: 'IKK Urusan' },
@@ -172,6 +176,87 @@ document.addEventListener('alpine:init', () => {
                     this.$nextTick(() => lucide.createIcons());
                 });
             }, 800);
+        },
+
+        async openFormatModal(item) {
+            this.currentFormatItem = item;
+            this.showFormatModal = true;
+            this.isFormatLoading = true;
+            this.formatExists = false;
+            
+            // Mencegah body scroll di belakang modal
+            document.body.style.overflow = 'hidden';
+
+            try {
+                // Menggunakan timestamp untuk menghindari cache saat development
+                const cacheBuster = `?t=${new Date().getTime()}`;
+                const response = await fetch(`./data/formats/${item.id}.html${cacheBuster}`);
+                
+                if (response.ok) {
+                    const html = await response.text();
+                    this.formatExists = true;
+                    // Memasukkan HTML ke dalam iframe
+                    this.$nextTick(() => {
+                        const iframe = document.getElementById('format-iframe');
+                        if (iframe) {
+                            const doc = iframe.contentWindow.document;
+                            doc.open();
+                            doc.write(html);
+                            doc.close();
+                        }
+                    });
+                } else {
+                    this.formatExists = false;
+                }
+            } catch (err) {
+                console.error("Gagal memuat format:", err);
+                this.formatExists = false;
+            } finally {
+                this.isFormatLoading = false;
+            }
+        },
+
+        closeFormatModal() {
+            this.showFormatModal = false;
+            document.body.style.overflow = ''; // Mengembalikan scroll
+            
+            setTimeout(() => {
+                const iframe = document.getElementById('format-iframe');
+                if (iframe) {
+                    iframe.contentWindow.document.open();
+                    iframe.contentWindow.document.write('');
+                    iframe.contentWindow.document.close();
+                }
+            }, 300); // Bersihkan setelah animasi tutup selesai
+        },
+
+        downloadFormatPDF() {
+            if (!this.formatExists || !this.currentFormatItem) return;
+            
+            const iframe = document.getElementById('format-iframe');
+            if (!iframe) return;
+            
+            // Mengambil elemen wrapper di dalam iframe untuk dicetak
+            // Mengambil elemen div terluar dari body iframe
+            const element = iframe.contentWindow.document.body.querySelector('div') || iframe.contentWindow.document.body;
+            
+            // Tambahkan flag loading pada modal PDF
+            this.isFormatLoading = true;
+            
+            const opt = {
+                margin:       10,
+                filename:     `Format_Data_Dukung_${this.currentFormatItem.id}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, windowWidth: 850 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                this.isFormatLoading = false;
+            }).catch(err => {
+                console.error("Gagal membuat PDF format:", err);
+                this.isFormatLoading = false;
+            });
         },
 
         async init() {
