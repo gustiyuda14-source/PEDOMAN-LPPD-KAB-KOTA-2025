@@ -87,6 +87,8 @@ document.addEventListener('alpine:init', () => {
                     'Fungsi Penunjang Urusan Pemerintahan Bidang Penelitian dan',
                     'Fungsi Penunjang Urusan Pemerintahan Bidang Pengawasan',
                     'Fungsi Penunjang Urusan Pemerintahan Bidang Pengadaan',
+                    'Fungsi Penunjang Urusan Pemerintahan Bidang Hubungan dengan Perwakilan Daerah',
+                    'Fungsi Penunjang Urusan Pemerintahan Bidang Pelayanan Publik',
                 ],
             },
         ],

@@ -1650,5 +1650,47 @@
         "data_pendukung": "Dibuktikan dengan dokumen pendukung yang\nditandatangani oleh kepala perangkat daerah disertai\ndengan kop surat dan stempel resmi yang memuat hasil\ntangkapan layar dari dashboard Indeks Tata Kelola\nPengadaan yang memuat indikator kualifikasi dan\nkompetensi Sumber Daya Manusia Pengadaan Barang\nJasa.",
         "sumber_data": "",
         "dasar_hukum": ""
+    },
+    {
+        "id": "4.g.1",
+        "name": "Ketepatan Waktu Penetapan Peraturan Daerah Anggaran Pendapatan dan Belanja Daerah Tahun N",
+        "urusan": "Fungsi Penunjang Urusan Pemerintahan Bidang Hubungan dengan Perwakilan Daerah",
+        "page_start": 544,
+        "page_end": 546,
+        "konsep": "Untuk menilai ketepatan waktu penetapan Peraturan\nDaerah Anggaran Pendapatan dan Belanja Daerah dan\nmemastikan kepatuhan, kelancaran pelaksanaan\nanggaran, serta akuntabilitas pengelolaan keuangan\ndaerah.",
+        "rumus": "1. Tepat Waktu; dan\n2. Tidak Tepat Waktu.",
+        "satuan": "Persentase (%)",
+        "definisi_operasional": "a. Anggaran Pendapatan dan Belanja Daerah yang\nselanjutnya disingkat APBD adalah rencana\nkeuangan tahunan Daerah yang ditetapkan\ndengan Perda.\nb. Perda APBD ditetapkan paling lambat 31\nDesember pada tahun sebelumnya.",
+        "data_pendukung": "Dibuktikan dengan dokumen pendukung yang\nditandatangani oleh kepala perangkat daerah berkop\nsurat dan stempel resmi, disertai tempat, tanggal,\nbulan dan tahun penandatanganan, yang memuat\nKetepatan Waktu (tanggal) Penetapan Peraturan\nDaerah Anggaran Pendapatan dan Belanja Daerah\nTahun N.",
+        "sumber_data": "Sumber Data Pembilang dan Penyebut:\n1. Perangkat Daerah yang menangani fungsi\npengelolaan keuangan daerah (Badan Pengelolaan\nKeuangan dan Aset Daerah);\n2. Melampirkan Peraturan Daerah (Perda) Anggaran\nPendapatan dan Belanja Daerah Tahun N;\n3. Apabila rincian melebihi 10 halaman, maka cukup\nmenyajikan, antara lain:\na. Halaman 1 (Judul);\nb. Halaman pertengahan;\nc. Halaman terakhir atau halaman\npengesahan/tanda tangan Kepala\ndinas/badan/kantor; dan\nd. Dapat menyertakan rincian data pada link\ngoogle drive.",
+        "dasar_hukum": "a. Undang-Undang Nomor 23 Tahun 2014 tentang\nPemerintahan Daerah.\nb. Peraturan Pemerintah Nomor 12 Tahun 2019\ntentang Pengelolaan Keuangan Daerah."
+    },
+    {
+        "id": "4.g.2",
+        "name": "Persentase Penetapan Rancangan Peraturan Daerah Tahun N",
+        "urusan": "Fungsi Penunjang Urusan Pemerintahan Bidang Hubungan dengan Perwakilan Daerah",
+        "page_start": 547,
+        "page_end": 549,
+        "konsep": "Untuk menilai sejauh mana Ranperda yang\ndirencanakan dalam Program Pembentukan Peraturan\nDaerah (Propemperda) Tahun N berhasil ditetapkan\nmenjadi Perda.",
+        "rumus": "Jumlah Peraturan Daerah yang ditetapkan Tahun N\nx 100%\nJumlah Rancangan Peraturan Daerah yang tertuang\ndalam program pembentukan peraturan daerah\nTahun N",
+        "satuan": "Persentase (%)",
+        "definisi_operasional": "▪ Pembilang\n1. Jumlah rancangan peraturan daerah yang telah\nditetapkan menjadi peraturan daerah (Perda)\nberdasarkan program pembentukan peraturan\ndaerah tahun N.\n2. Perda Provinsi atau nama lainnya dan Perda\nKabupaten/Kota atau nama lainnya yang\nselanjutnya disebut Perda adalah peraturan\nperundang-undangan yang dibentuk oleh DPRD\ndengan persetujuan bersama kepala daerah.\n\n▪ Penyebut\n1. Jumlah rancangan peraturan daerah yang telah\nditetapkan dalam program pembentukan peraturan\ndaerah tahun N.\n2. Program Pembentukan Perda yang selanjutnya\ndisebut Propemperda adalah instrumen\nperencanaan program pembentukan Perda Provinsi\ndan Perda Kabupaten/Kota yang disusun secara\nterencana, terpadu, dan sistematis.\n3. Penyusunan Propemperda ditetapkan untuk jangka\nwaktu 1 (satu) tahun berdasarkan skala prioritas\npembentukan rancangan Perda.\n4. Penyusunan Propemperda memuat daftar rancangan\nPerda.",
+        "data_pendukung": "Dibuktikan dengan dokumen pendukung yang\nditandatangani oleh kepala perangkat daerah berkop\nsurat dan stempel resmi, disertai tempat, tanggal,\nbulan dan tahun penandatanganan, yang memuat\nRekapitulasi Rancangan Perda yang telah ditetapkan\nmenjadi Perda berdasarkan Program Pembentukan\nPerda tahun N.",
+        "sumber_data": "Sumber Data Pembilang dan Penyebut:\n1. Sekretariat Dewan DPRD atau Perangkat Daerah\nyang menyelenggarakan urusan pemerintahan di\nbidang hukum (Biro/Bagian Hukum);\n2. Rincian Jumlah Rancangan Perda yang telah\nditetapkan menjadi Perda berdasarkan Program\nPembentukan Perda tahun N;\n3. Melampirkan Program Pembentukan Perda yang\ntelah ditetapkan;\n4. Apabila rincian melebihi 10 halaman, maka cukup\nmenyajikan, antara lain:\na. Halaman 1 (Judul);\nb. Halaman pertengahan;\nc. Halaman terakhir atau halaman\npengesahan/tanda tangan Kepala\ndinas/badan/kantor; dan\nd. Dapat menyertakan rincian data pada link\ngoogle drive.",
+        "dasar_hukum": "a. Undang-Undang Nomor 23 Tahun 2014 tentang\nPemerintahan Daerah.\nb. Peraturan Menteri Dalam Negeri Republik\nIndonesia Nomor 120 Tahun 2018 tentang\nPerubahan Atas Peraturan Menteri Dalam Negeri\nNomor 80 Tahun 2015 tentang Pembentukan\nProduk Hukum Daerah."
+    },
+    {
+        "id": "4.h",
+        "name": "Penilaian Maladministrasi Penyelenggaraan Pelayanan Publik",
+        "urusan": "Fungsi Penunjang Urusan Pemerintahan Bidang Pelayanan Publik",
+        "page_start": 550,
+        "page_end": 552,
+        "konsep": "Untuk mengukur kesesuaian penyelenggaraan\npelayanan publik dengan standar pelayanan, prosedur,\ndan ketentuan peraturan perundang-undangan.",
+        "rumus": "Nilai penilaian maladministrasi penyelenggaraan\npelayanan publik",
+        "satuan": "Nilai",
+        "definisi_operasional": "1. Penilaian Maladministrasi Penyelenggaraan\nPelayanan Publik yang selanjutnya disebut Penilaian\nadalah rangkaian kegiatan sistematis dan metodis\ndengan dimensi yang telah ditetapkan sebagai salah\nsatu upaya pengawasan Ombudsman.\n2. Maladministrasi adalah perilaku atau perbuatan\nmelawan hukum, melampaui wewenang,\nmenggunakan wewenang untuk tujuan lain dari yang\nmenjadi tujuan wewenang tersebut, termasuk\nkelalaian atau pengabaian kewajiban hukum dalam\npenyelenggaraan Pelayanan Publik yang dilakukan\noleh Penyelenggara Negara dan pemerintahan yang\nmenimbulkan kerugian materiil dan/atau immateriil\nbagi masyarakat dan orang perseorangan.\n3. Pelayanan Publik adalah kegiatan atau rangkaian\nkegiatan dalam rangka pemenuhan kebutuhan\npelayanan sesuai dengan peraturan perundang-\nundangan bagi setiap warga negara dan penduduk\natas barang, jasa, dan/atau pelayanan administratif\nyang penyelenggara pelayanan publik.\n4. Penyelenggara Pelayanan Publik yang selanjutnya\ndisebut Penyelenggara adalah setiap institusi\npenyelenggara negara, korporasi, lembaga\nindependen yang dibentuk berdasarkan undang-\nundang untuk kegiatan pelayanan publik, dan badan\nhukum lain yang dibentuk semata mata untuk\nkegiatan Pelayanan Publik.\n5. Penyusunan hasil Penilaian disusun dalam bentuk\nlaporan hasil Penilaian dan disampaikan kepada\nPembina Penyelenggara yang dilakukan Penilaian.",
+        "data_pendukung": "Dibuktikan dengan dokumen pendukung yang\nditandatangani oleh kepala bagian organisasi berkop\nsurat dan stempel resmi, disertai tempat, tanggal,\nbulan dan tahun penandatanganan, yang memuat nilai\nberdasarkan hasil penilaian maladministrasi\npenyelenggaraan pelayanan publik.",
+        "sumber_data": "Sumber Data Pembilang dan Penyebut:\n1. Perangkat Daerah yang menyelenggarakan urusan\npemerintahan di bidang Organisasi atau Perangkat\nDaerah lainnya yang mengawal penyelenggaraan\npelayanan publik;\n2. Melampirkan hasil penilaian maladministrasi\npenyelenggaraan pelayanan publik dari Ombudsman\nRI;\n3. Apabila rincian melebihi 10 halaman, maka cukup\nmenyajikan, antara lain:\na. Halaman 1 (Judul);\nb. Halaman pertengahan;\nc. Halaman terakhir atau halaman\npengesahan/tanda tangan Kepala\ndinas/badan/kantor; dan\nd. Dapat menyertakan rincian data pada link\ngoogle drive.",
+        "dasar_hukum": "a. Peraturan Pemerintah Nomor 96 Tahun 2012\ntentang Pelaksanaan Undang-Undang Nomor 25\nTahun 2009 tentang Pelayanan Publik.\nb. Peraturan Ombudsman Republik Indonesia Nomor\n61 Tahun 2025 Tentang Penilaian Maladministrasi\nPenyelenggaraan Pelayanan Publik."
     }
 ]
