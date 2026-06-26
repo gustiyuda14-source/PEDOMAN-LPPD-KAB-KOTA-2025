@@ -198,35 +198,12 @@ document.addEventListener('alpine:init', () => {
                     this.$nextTick(() => {
                         const iframe = document.getElementById('format-iframe');
                         if (iframe) {
-                            iframe.style.height = '500px';
-
-                            // Listen for height reports from inside the iframe
-                            if (this._iframeHeightHandler) {
-                                window.removeEventListener('message', this._iframeHeightHandler);
-                            }
-                            this._iframeHeightHandler = (e) => {
-                                if (e.data && e.data.type === 'lppd-iframe-height') {
-                                    iframe.style.height = (e.data.height + 50) + 'px';
-                                }
-                            };
-                            window.addEventListener('message', this._iframeHeightHandler);
-
-                            // Inject height-reporter script that runs after Tailwind CDN settles
-                            const heightReporter = `<script>
-(function(){
-  function report(){
-    window.parent.postMessage({type:'lppd-iframe-height',height:document.body.scrollHeight},'*');
-  }
-  window.addEventListener('load',function(){
-    report();
-    [100,300,600,1000,1500,2500].forEach(function(ms){setTimeout(report,ms);});
-  });
-})();
-<\/script>`;
-                            const modifiedHtml = html.replace('</body>', heightReporter + '</body>');
+                            // Iframe adalah viewport A4 ber-tinggi tetap yang scroll di dalam
+                            // dirinya sendiri (lihat index.html). Tidak ada pengukuran tinggi,
+                            // jadi konten tidak akan pernah terpotong apa pun timing Tailwind CDN.
                             const doc = iframe.contentWindow.document;
                             doc.open();
-                            doc.write(modifiedHtml);
+                            doc.write(html);
                             doc.close();
                         }
                     });
@@ -245,15 +222,9 @@ document.addEventListener('alpine:init', () => {
             this.showFormatModal = false;
             document.body.style.overflow = '';
 
-            if (this._iframeHeightHandler) {
-                window.removeEventListener('message', this._iframeHeightHandler);
-                this._iframeHeightHandler = null;
-            }
-
             setTimeout(() => {
                 const iframe = document.getElementById('format-iframe');
                 if (iframe) {
-                    iframe.style.height = '500px';
                     iframe.contentWindow.document.open();
                     iframe.contentWindow.document.write('');
                     iframe.contentWindow.document.close();
