@@ -198,12 +198,14 @@ document.addEventListener('alpine:init', () => {
                     this.$nextTick(() => {
                         const iframe = document.getElementById('format-iframe');
                         if (iframe) {
-                            // Iframe adalah viewport A4 ber-tinggi tetap yang scroll di dalam
-                            // dirinya sendiri (lihat index.html). Tidak ada pengukuran tinggi,
-                            // jadi konten tidak akan pernah terpotong apa pun timing Tailwind CDN.
+                            // Iframe = viewport scrollable penuh (lihat index.html). Tidak ada
+                            // pengukuran tinggi, jadi konten tak akan terpotong apa pun timing CDN.
+                            // Suntik CSS kecil agar padding kertas mengecil di layar HP.
+                            const mobileFix = '<style>@media(max-width:640px){body{padding:0.6rem !important;}}</style>';
+                            const finalHtml = html.replace('</head>', mobileFix + '</head>');
                             const doc = iframe.contentWindow.document;
                             doc.open();
-                            doc.write(html);
+                            doc.write(finalHtml);
                             doc.close();
                         }
                     });
