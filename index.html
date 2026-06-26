@@ -812,9 +812,11 @@
                 <p class="text-sm text-slate-500 dark:text-slate-400">Mohon maaf, template format data dukung untuk indikator ini belum diunggah ke sistem.</p>
             </div>
 
-            <!-- Iframe Container for Format — fixed-height A4 viewport that scrolls internally -->
-            <div x-show="!isFormatLoading && formatExists" class="w-full max-w-[850px] h-full shadow-2xl rounded-sm overflow-hidden bg-white">
-                <iframe id="format-iframe" class="block w-full h-full border-none bg-white"></iframe>
+            <!-- Iframe Container for Format -->
+            <div x-show="!isFormatLoading && formatExists" class="w-full max-w-[850px] shadow-2xl rounded-sm overflow-x-auto bg-white mb-20">
+                <div class="min-w-[850px]">
+                    <iframe id="format-iframe" scrolling="no" class="w-full border-none bg-white"></iframe>
+                </div>
             </div>
         </div>
     </div>
