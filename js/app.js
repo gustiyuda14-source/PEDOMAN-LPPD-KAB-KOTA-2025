@@ -199,10 +199,16 @@ document.addEventListener('alpine:init', () => {
                     this.$nextTick(() => {
                         const iframe = document.getElementById('format-iframe');
                         if (iframe) {
+                            iframe.style.height = '10px'; // Reset height
                             const doc = iframe.contentWindow.document;
                             doc.open();
                             doc.write(html);
                             doc.close();
+                            
+                            // Adjust height after content loads
+                            setTimeout(() => {
+                                iframe.style.height = (doc.documentElement.scrollHeight + 50) + 'px';
+                            }, 100);
                         }
                     });
                 } else {
