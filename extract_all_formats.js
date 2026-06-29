@@ -110,6 +110,12 @@ for (const ikk of ikkData) {
             successCount++;
         }
 
+        let dinasName = ikk.urusan ? ikk.urusan.toUpperCase().replace('URUSAN ', 'DINAS ') : 'DINAS / BADAN ................................';
+        // Handle Edge Cases for Dinas
+        if (dinasName.includes('FUNGSI PENUNJANG')) {
+            dinasName = 'BADAN ' + dinasName.replace('FUNGSI PENUNJANG URUSAN PEMERINTAHAN BIDANG ', '');
+        }
+
         let tablesHtml = '';
         for (let i = 0; i < tablesData.length; i++) {
             const t = tablesData[i];
@@ -118,63 +124,72 @@ for (const ikk of ikkData) {
             tablesHtml += `
 ${pageBreak}
 <div class="bg-white p-6 sm:p-10 w-full max-w-[950px] mx-auto text-[13px] leading-snug shadow-xl relative print:shadow-none print:w-full print:max-w-full mb-8">
+    
+    <!-- Top Right Box -->
+    <div class="flex justify-end mb-6">
+        <div class="border-2 border-black p-1.5 text-center text-xs font-bold w-44">
+            <p>Format Data Dukung</p>
+            <p>${t.title.charAt(0) + t.title.slice(1).toLowerCase()}</p>
+            <p>IKK ${ikk.id}</p>
+        </div>
+    </div>
+
     <!-- KOP Surat -->
     <div class="text-center font-bold mb-4">
         <p class="text-base">KOP SURAT</p>
-        <p class="text-base uppercase">DINAS / BADAN ................................</p>
-        <p class="text-base uppercase">KABUPATEN/KOTA .....</p>
+        <p class="text-base uppercase">${dinasName} KABUPATEN/KOTA .....</p>
     </div>
     
+    <!-- KOP Line -->
     <div class="border-t-[3px] border-black mb-1"></div>
     <div class="border-t border-black mb-6"></div>
 
+    <!-- Title -->
     <div class="text-center font-bold mb-8 uppercase">
-        <p class="mb-2">FORMAT DATA DUKUNG IKK ${ikk.id}</p>
-        <p class="mb-2">${t.title}</p>
+        <p class="mb-2">FORMAT DATA DUKUNG IKK ${ikk.id} - ${t.title}</p>
         <p>${ikk.name}</p>
     </div>
 
     <!-- Tabel -->
-    <div class="overflow-x-auto w-full">
-        <table class="w-full border-collapse border border-black mb-6 text-[11px] sm:text-[12px] min-w-[700px]">
+    <div class="overflow-x-auto w-full mb-8">
+        <table class="w-full border-collapse border border-black text-center text-xs min-w-[700px]">
             <thead>
-                <tr class="bg-gray-100 text-center font-bold">
-                    ${t.columns.map(c => `<th class="border border-black p-2 align-middle max-w-[250px] break-words">${c.desc}</th>`).join('\n                    ')}
+                <tr>
+                    ${t.columns.map(c => `<th class="border border-black p-2 align-middle break-words">${c.desc}</th>`).join('\n                    ')}
                 </tr>
-                <tr class="bg-gray-100 italic font-bold text-center">
+                <tr class="bg-gray-100 italic font-bold">
                     ${t.columns.map(c => `<td class="border border-black p-1">(${c.index})</td>`).join('\n                    ')}
                 </tr>
             </thead>
             <tbody>
-                <!-- Contoh 3 baris data kosong -->
-                <tr>${t.columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
-                <tr>${t.columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
-                <tr>${t.columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
+                <tr>${t.columns.map(c => `<td class="border border-black p-2.5 h-8"></td>`).join('')}</tr>
+                <tr>${t.columns.map(c => `<td class="border border-black p-2.5 h-8"></td>`).join('')}</tr>
+                <tr>${t.columns.map(c => `<td class="border border-black p-2.5 h-8 text-left pl-3">${c.index === '1' ? 'Dst.' : ''}</td>`).join('')}</tr>
             </tbody>
         </table>
     </div>
 
+    <!-- Signatures -->
+    <div class="flex justify-end mb-12 text-center">
+        <div class="w-72">
+            <p>......................., tanggal .....</p>
+            <p class="mt-4 font-bold">Kepala ${dinasName.replace('DINAS ', 'Dinas ').replace('BADAN ', 'Badan ')}</p>
+            <p class="font-bold">Kabupaten/Kota .....</p>
+            <p class="mt-6 font-bold">Ttd dan cap/TTE</p>
+            <p class="mt-20 font-bold">(.........................................)</p>
+            <p class="font-bold text-left pl-6">Pangkat/Gol Ruang .....</p>
+            <p class="font-bold text-left pl-6">NIP. .....</p>
+        </div>
+    </div>
+
     <!-- Keterangan -->
     <div class="text-xs mb-8">
-        <p class="font-bold underline mb-2.5 text-[13px]">Keterangan Kolom (Otomatis diekstrak dari Pedoman):</p>
+        <p class="font-bold underline mb-2.5 text-[13px]">Keterangan Kolom:</p>
         <table class="w-full border-none text-left">
             <tbody>
                 ${t.columns.map(c => `<tr><td class="align-top pr-2 w-20 py-0.5 whitespace-nowrap">- Kolom ${c.index}</td><td class="align-top w-3 py-0.5">:</td><td class="align-top py-0.5 break-words">${c.desc}</td></tr>`).join('\n                ')}
             </tbody>
         </table>
-    </div>
-
-    <!-- Tanda Tangan -->
-    <div class="mt-8 flex justify-end">
-        <div class="w-64 text-center">
-            <p class="text-left pl-6 mb-1">……………, tanggal …..</p>
-            <p class="font-bold">Kepala PD ................................</p>
-            <p class="mb-16 font-bold">Kabupaten/Kota .....</p>
-            
-            <p class="font-bold underline">(........................................................)</p>
-            <p class="text-left pl-6">Pangkat/Gol Ruang .....</p>
-            <p class="text-left pl-6">NIP. ............................</p>
-        </div>
     </div>
 </div>
 `;
