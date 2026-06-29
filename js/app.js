@@ -11,6 +11,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('lppdApp', () => ({
         isLoading: true,
         ikkData: [],
+        formatStatuses: {},
         introData: { bab1: '', bab2: '', bab3: '' },
         activeMenu: window.location.hash ? window.location.hash.substring(1) : 'dashboard',
         searchQuery: '',
@@ -284,14 +285,22 @@ document.addEventListener('alpine:init', () => {
             });
 
             try {
-                const [ikkRes, introRes, macroRes] = await Promise.all([
+                const [ikkRes, introRes, macroRes, statusRes] = await Promise.all([
                     fetch('./data/ikk_details.json'),
                     fetch('./data/intro_chapters.json'),
                     fetch('./data/macro_indicators.json'),
+                    fetch('./data/status_format.json').catch(() => ({ json: () => ({}) }))
                 ]);
                 this.ikkData = await ikkRes.json();
                 this.introData = await introRes.json();
                 this.macroIndicators = await macroRes.json();
+                
+                // Only parse JSON if response is valid, otherwise use empty object fallback
+                try {
+                    this.formatStatuses = await statusRes.json();
+                } catch {
+                    this.formatStatuses = {};
+                }
             } catch (err) {
                 console.error('Gagal memuat data:', err);
             } finally {

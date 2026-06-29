@@ -349,6 +349,18 @@
                                             <span
                                                 class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 truncate"
                                                 x-text="item.urusan.replace('Urusan ','').replace('Fungsi Penunjang Urusan Pemerintahan Bidang ','')"></span>
+                                            
+                                            <!-- Status Badge -->
+                                            <template x-if="formatStatuses[item.id] === 'custom'">
+                                                <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border border-emerald-200 dark:border-emerald-800/60 ml-1">
+                                                    <i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Sesuai Pedoman
+                                                </span>
+                                            </template>
+                                            <template x-if="formatStatuses[item.id] === 'generic' || !formatStatuses[item.id]">
+                                                <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-500 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border border-amber-200 dark:border-amber-800/60 ml-1">
+                                                    <i data-lucide="alert-circle" class="w-2.5 h-2.5"></i> Generik
+                                                </span>
+                                            </template>
                                         </div>
                                         <h4 class="text-sm sm:text-[15px] font-semibold font-outfit text-slate-900 dark:text-white leading-snug group-hover:text-apip-700 dark:group-hover:text-apip-400 transition-colors"
                                             x-text="item.name"></h4>

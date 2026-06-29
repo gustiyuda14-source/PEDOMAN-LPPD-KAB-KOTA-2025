@@ -224,13 +224,30 @@ const template = (id, title) => `<!DOCTYPE html>
 </body>
 </html>`;
 
+const customFormatsDir = path.join(__dirname, 'public/data/custom_formats');
+const statusPath = path.join(__dirname, 'public/data/status_format.json');
+const formatStatus = {};
+
 let count = 0;
 for (const item of ikkData) {
-    if (item.id === '1.a.1') continue;
+    const customFormatPath = path.join(customFormatsDir, `${item.id}.html`);
+    const targetFormatPath = path.join(formatsDir, `${item.id}.html`);
+
+    if (fs.existsSync(customFormatPath)) {
+        // If custom format exists, copy it
+        fs.copyFileSync(customFormatPath, targetFormatPath);
+        console.log(`Used custom format for ${item.id}`);
+        formatStatus[item.id] = "custom";
+    } else {
+        // Otherwise use generic template
+        const html = template(item.id, item.name);
+        fs.writeFileSync(targetFormatPath, html, 'utf-8');
+        formatStatus[item.id] = "generic";
+    }
     
-    const html = template(item.id, item.name);
-    fs.writeFileSync(path.join(formatsDir, `${item.id}.html`), html, 'utf-8');
     count++;
 }
 
-console.log(`Generated ${count} format files.`);
+fs.writeFileSync(statusPath, JSON.stringify(formatStatus, null, 2), 'utf-8');
+console.log(`Generated/Copied ${count} format files.`);
+console.log(`Status saved to status_format.json.`);
