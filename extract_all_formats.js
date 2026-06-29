@@ -14,16 +14,13 @@ if (!fs.existsSync(customFormatsDir)) {
 // Read IKK Data
 const ikkData = JSON.parse(fs.readFileSync(ikkDetailsPath, 'utf8'));
 
-console.log(`Mulai mengekstrak format untuk ${ikkData.length} IKK...`);
+console.log(`Mulai mengekstrak format untuk ${ikkData.length} IKK (Support Multi-Tabel: Pembilang/Penyebut)...`);
 
 let successCount = 0;
 let failCount = 0;
 
 for (const ikk of ikkData) {
-    // Skip the ones we already handcrafted perfectly
-    if (ikk.id === '1.a.1' || ikk.id === '4.a') {
-        continue;
-    }
+    if (ikk.id === '1.a.1' || ikk.id === '4.a') continue;
     
     if (!ikk.page_start || !ikk.page_end) {
         console.warn(`IKK ${ikk.id} tidak memiliki halaman pedoman, melewati.`);
@@ -31,109 +28,96 @@ for (const ikk of ikkData) {
     }
 
     try {
-        // Jalankan pdftotext
-        // Menggunakan -layout untuk menjaga struktur
         const cmd = `/opt/homebrew/bin/pdftotext -layout -f ${ikk.page_start} -l ${ikk.page_end} "${pdfPath}" -`;
         const output = execSync(cmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
         
-        // Cari bagian Keterangan Kolom
         const parts = output.split(/Keterangan Kolom\s*:/i);
-        let columns = [];
+        let tablesData = [];
         
         if (parts.length > 1) {
-            // Kita ambil bagian terakhir karena kadang ada Pembilang dan Penyebut
-            const ketText = parts[parts.length - 1];
-            
-            // Regex mencari "- Kolom 1 : Deskripsi" atau "Kolom 1: Deskripsi"
-            const regex = /(?:-\s*)?Kolom\s*(\d+)\s*:\s*([^\n]+)/gi;
-            let match;
-            while ((match = regex.exec(ketText)) !== null) {
-                // Bersihkan spasi ganda dan karakter aneh
-                let desc = match[2].trim().replace(/\s+/g, ' ');
-                // Potong jika terlalu panjang, supaya tampilan tidak hancur
-                if (desc.length > 120) desc = desc.substring(0, 117) + '...';
+            for (let i = 1; i < parts.length; i++) {
+                const ketText = parts[i];
+                const prevText = parts[i-1].slice(-800).toLowerCase(); // Look at previous text to guess title
                 
-                columns.push({
-                    index: match[1],
-                    desc: desc
-                });
-            }
-        }
-        
-        // Filter unik jika ada duplikasi index kolom
-        const uniqueColumnsMap = new Map();
-        for (const c of columns) {
-            if (!uniqueColumnsMap.has(c.index)) {
-                uniqueColumnsMap.set(c.index, c);
-            }
-        }
-        columns = Array.from(uniqueColumnsMap.values()).sort((a, b) => parseInt(a.index) - parseInt(b.index));
+                let title = `BAGIAN ${i}`;
+                if (prevText.includes('pembilang') && !prevText.includes('penyebut')) {
+                    title = "PEMBILANG";
+                } else if (prevText.includes('penyebut') && !prevText.includes('pembilang')) {
+                    title = "PENYEBUT";
+                } else if (prevText.includes('pembilang') && prevText.includes('penyebut')) {
+                    // Check which word appears closer to the end
+                    const posPemb = prevText.lastIndexOf('pembilang');
+                    const posPeny = prevText.lastIndexOf('penyebut');
+                    title = posPemb > posPeny ? "PEMBILANG" : "PENYEBUT";
+                }
+                
+                let columns = [];
+                const regex = /(?:-\s*)?Kolom\s*(\d+)\s*:\s*([^\n]+)/gi;
+                let match;
+                while ((match = regex.exec(ketText)) !== null) {
+                    let desc = match[2].trim().replace(/\s+/g, ' ');
+                    if (desc.length > 120) desc = desc.substring(0, 117) + '...';
+                    columns.push({ index: match[1], desc: desc });
+                }
 
-        // Edge cases untuk 4 IKK yang gagal di-parsing regex karena typo di pedoman atau layout aneh
+                const uniqueColumnsMap = new Map();
+                for (const c of columns) {
+                    if (!uniqueColumnsMap.has(c.index)) {
+                        uniqueColumnsMap.set(c.index, c);
+                    }
+                }
+                columns = Array.from(uniqueColumnsMap.values()).sort((a, b) => parseInt(a.index) - parseInt(b.index));
+                
+                if (columns.length > 0) {
+                    tablesData.push({ title, columns });
+                }
+            }
+        }
+
+        // Edge cases
         if (ikk.id === '2.i.1') {
-            columns = [
-                { index: '1', desc: 'Nomor Urut' },
-                { index: '2', desc: 'Kode / Nama Trayek' },
-                { index: '3', desc: 'Rute Trayek' },
-                { index: '4', desc: 'Asal' },
-                { index: '5', desc: 'Tujuan' },
-                { index: '6', desc: 'Keterangan' }
+            tablesData = [
+                { title: 'TRAYEK ANTAR KOTA DALAM KAB/KOTA', columns: [ {index:'1', desc:'Nomor Urut'}, {index:'2', desc:'Kode'}, {index:'3', desc:'Rute Trayek'}, {index:'4', desc:'Asal'}, {index:'5', desc:'Tujuan'}, {index:'6', desc:'Keterangan'} ] },
+                { title: 'TRAYEK ANTAR KOTA ANTAR KAB/KOTA', columns: [ {index:'1', desc:'Nomor Urut'}, {index:'2', desc:'Nama Trayek'}, {index:'3', desc:'Rute Trayek'}, {index:'4', desc:'Asal'}, {index:'5', desc:'Tujuan'}, {index:'6', desc:'Keterangan'} ] },
+                { title: 'KONEKTIVITAS TRANSPORTASI LAUT', columns: [ {index:'1', desc:'Nomor Urut'}, {index:'2', desc:'Jenis Trayek'}, {index:'3', desc:'Rute'}, {index:'4', desc:'Pelabuhan Asal'}, {index:'5', desc:'Tujuan Pelabuhan'}, {index:'6', desc:'Keterangan'} ] }
             ];
         } else if (ikk.id === '3.e.4') {
-            columns = [
-                { index: '1', desc: 'Nomor Urut' },
-                { index: '2', desc: 'Nama Perusahaan' },
-                { index: '3', desc: 'Alamat Perusahaan' },
-                { index: '4', desc: 'Asal Negara (PMA)' },
-                { index: '5', desc: 'Nilai Investasi' },
-                { index: '6', desc: 'Keterangan' }
+            tablesData = [
+                { title: 'INVESTASI PMA', columns: [ {index:'1', desc:'Nomor Urut'}, {index:'2', desc:'Nama Perusahaan'}, {index:'3', desc:'Alamat Perusahaan'}, {index:'4', desc:'Asal Negara'}, {index:'5', desc:'Nilai Investasi'}, {index:'6', desc:'Keterangan'} ] },
+                { title: 'INVESTASI PMDN', columns: [ {index:'1', desc:'Nomor Urut'}, {index:'2', desc:'Nama Perusahaan'}, {index:'3', desc:'Alamat Perusahaan'}, {index:'4', desc:'Nilai Investasi'}, {index:'5', desc:'Keterangan'} ] }
             ];
         } else if (ikk.id === '4.f.1') {
-            columns = [
-                { index: '1', desc: 'Uraian Tingkat Kematangan UKPBJ' },
-                { index: '2', desc: 'Capaian Tingkat Kematangan UKPBJ' },
-                { index: '3', desc: 'Lampiran Rincian Indeks Tata Kelola Pengadaan' }
-            ];
+            tablesData = [{ title: 'PENYEBUT', columns: [ {index:'1', desc:'Uraian'}, {index:'2', desc:'Capaian'}, {index:'3', desc:'Lampiran'} ] }];
         } else if (ikk.id === '4.f.3') {
-            columns = [
-                { index: '1', desc: 'Uraian Kualifikasi dan Kompetensi SDM' },
-                { index: '2', desc: 'Capaian Kualifikasi' },
-                { index: '3', desc: 'Lampiran / Keterangan' }
-            ];
+            tablesData = [{ title: 'PENYEBUT', columns: [ {index:'1', desc:'Uraian'}, {index:'2', desc:'Capaian'}, {index:'3', desc:'Lampiran'} ] }];
         }
 
-        if (columns.length === 0) {
-            console.warn(`⚠️ IKK ${ikk.id}: Gagal mendeteksi kolom dari PDF, fallback ke generik.`);
-            columns = [
-                { index: '1', desc: 'Nomor Urut' },
-                { index: '2', desc: 'Uraian Data Dukung' },
-                { index: '3', desc: 'Satuan' },
-                { index: '4', desc: 'Capaian' },
-                { index: '5', desc: 'Keterangan' },
-            ];
+        if (tablesData.length === 0) {
+            console.warn(`⚠️ IKK ${ikk.id}: Gagal mendeteksi tabel dari PDF, fallback ke generik.`);
+            tablesData = [{
+                title: 'DATA DUKUNG',
+                columns: [
+                    { index: '1', desc: 'Nomor Urut' },
+                    { index: '2', desc: 'Uraian Data Dukung' },
+                    { index: '3', desc: 'Satuan' },
+                    { index: '4', desc: 'Capaian' },
+                    { index: '5', desc: 'Keterangan' },
+                ]
+            }];
             failCount++;
         } else {
-            console.log(`✅ IKK ${ikk.id}: Berhasil mengekstrak ${columns.length} kolom.`);
+            console.log(`✅ IKK ${ikk.id}: Berhasil mengekstrak ${tablesData.length} tabel.`);
             successCount++;
         }
 
-        // Generate Flattened HTML
-        const html = `<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Format Data Dukung ${ikk.id}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @media print {
-            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0; padding: 0; }
-            .break-before-page { page-break-before: always; }
-        }
-    </style>
-</head>
-<body class="bg-white text-black font-sans print:m-0 print:p-0">
-
-<div class="bg-white p-6 sm:p-10 w-full max-w-[950px] mx-auto text-[13px] leading-snug shadow-xl relative print:shadow-none print:w-full print:max-w-full">
+        let tablesHtml = '';
+        for (let i = 0; i < tablesData.length; i++) {
+            const t = tablesData[i];
+            const pageBreak = i > 0 ? '<div class="break-before-page w-full h-8 bg-transparent print:h-0 print:m-0"></div>' : '';
+            
+            tablesHtml += `
+${pageBreak}
+<div class="bg-white p-6 sm:p-10 w-full max-w-[950px] mx-auto text-[13px] leading-snug shadow-xl relative print:shadow-none print:w-full print:max-w-full mb-8">
     <!-- KOP Surat -->
     <div class="text-center font-bold mb-4">
         <p class="text-base">KOP SURAT</p>
@@ -146,6 +130,7 @@ for (const ikk of ikkData) {
 
     <div class="text-center font-bold mb-8 uppercase">
         <p class="mb-2">FORMAT DATA DUKUNG IKK ${ikk.id}</p>
+        <p class="mb-2">${t.title}</p>
         <p>${ikk.name}</p>
     </div>
 
@@ -154,17 +139,17 @@ for (const ikk of ikkData) {
         <table class="w-full border-collapse border border-black mb-6 text-[11px] sm:text-[12px] min-w-[700px]">
             <thead>
                 <tr class="bg-gray-100 text-center font-bold">
-                    ${columns.map(c => `<th class="border border-black p-2 align-middle max-w-[250px] break-words">${c.desc}</th>`).join('\n                    ')}
+                    ${t.columns.map(c => `<th class="border border-black p-2 align-middle max-w-[250px] break-words">${c.desc}</th>`).join('\n                    ')}
                 </tr>
                 <tr class="bg-gray-100 italic font-bold text-center">
-                    ${columns.map(c => `<td class="border border-black p-1">(${c.index})</td>`).join('\n                    ')}
+                    ${t.columns.map(c => `<td class="border border-black p-1">(${c.index})</td>`).join('\n                    ')}
                 </tr>
             </thead>
             <tbody>
                 <!-- Contoh 3 baris data kosong -->
-                <tr>${columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
-                <tr>${columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
-                <tr>${columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
+                <tr>${t.columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
+                <tr>${t.columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
+                <tr>${t.columns.map(c => `<td class="border border-black p-2 h-8"></td>`).join('')}</tr>
             </tbody>
         </table>
     </div>
@@ -174,7 +159,7 @@ for (const ikk of ikkData) {
         <p class="font-bold underline mb-2.5 text-[13px]">Keterangan Kolom (Otomatis diekstrak dari Pedoman):</p>
         <table class="w-full border-none text-left">
             <tbody>
-                ${columns.map(c => `<tr><td class="align-top pr-2 w-20 py-0.5 whitespace-nowrap">- Kolom ${c.index}</td><td class="align-top w-3 py-0.5">:</td><td class="align-top py-0.5 break-words">${c.desc}</td></tr>`).join('\n                ')}
+                ${t.columns.map(c => `<tr><td class="align-top pr-2 w-20 py-0.5 whitespace-nowrap">- Kolom ${c.index}</td><td class="align-top w-3 py-0.5">:</td><td class="align-top py-0.5 break-words">${c.desc}</td></tr>`).join('\n                ')}
             </tbody>
         </table>
     </div>
@@ -192,7 +177,24 @@ for (const ikk of ikkData) {
         </div>
     </div>
 </div>
+`;
+        }
 
+        const html = `<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Format Data Dukung ${ikk.id}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0; padding: 0; }
+            .break-before-page { page-break-before: always; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 sm:p-8 print:p-0 print:bg-white text-black font-sans">
+    ${tablesHtml}
 </body>
 </html>`;
 
