@@ -395,8 +395,8 @@
                                                             <i data-lucide="calculator" class="w-3.5 h-3.5"></i> Rumus
                                                             Perhitungan
                                                         </h5>
-                                                        <div class="font-mono text-xs whitespace-pre-wrap leading-relaxed py-3 px-3 bg-black/50 rounded-lg border border-slate-800 text-emerald-400"
-                                                            x-text="item.rumus || 'N/A'"></div>
+                                                        <div class="font-mono text-xs whitespace-normal leading-relaxed py-3 px-3 bg-black/50 rounded-lg border border-slate-800 text-emerald-400"
+                                                            x-html="formatRumus(item.rumus)"></div>
                                                     </div>
                                                 </div>
 

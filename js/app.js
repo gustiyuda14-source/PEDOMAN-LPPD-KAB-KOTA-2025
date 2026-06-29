@@ -13,6 +13,31 @@ document.addEventListener('alpine:init', () => {
         ikkData: [],
         formatStatuses: {},
         introData: { bab1: '', bab2: '', bab3: '' },
+
+        formatRumus(rumus) {
+            if (!rumus) return 'N/A';
+            let clean = rumus.replace(/_+/g, '').trim();
+            
+            // Mencari pola pemisah x 100%
+            const parts = clean.split(/\n\s*[xX]\s*100%\s*\n/);
+            if (parts.length === 2) {
+                const num = parts[0].trim().replace(/\n/g, '<br>');
+                const den = parts[1].trim().replace(/\n/g, '<br>');
+                return `
+                    <div class="flex items-center gap-3 font-sans text-sm text-emerald-300">
+                        <div class="flex flex-col text-center flex-1">
+                            <div class="pb-2.5 px-2 font-medium">` + num + `</div>
+                            <div class="border-t border-emerald-500/50 w-full"></div>
+                            <div class="pt-2.5 px-2 font-medium">` + den + `</div>
+                        </div>
+                        <div class="font-bold text-emerald-400 whitespace-nowrap text-base">
+                            x 100%
+                        </div>
+                    </div>
+                `;
+            }
+            return clean.replace(/\n/g, '<br>');
+        },
         activeMenu: window.location.hash ? window.location.hash.substring(1) : 'dashboard',
         searchQuery: '',
         activeCategory: 'all',
